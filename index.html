@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>You &amp; Me — Beauty Center</title>
+  <meta name="description" content="You & Me Beauty Center — soins du visage, massages, onglerie, épilation et maquillage. Un rituel de beauté pensé pour vous, avec nous.">
+  <link rel="icon" href="assets/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Monogramme réutilisable : cercle ouvert + Y central = M -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <g id="mono-paths" fill="none" stroke="currentColor" stroke-width="13">
+        <path class="m-arc m-arc-l" pathLength="1" d="M48.1 15.6 A46 46 0 0 0 52 105.3"/>
+        <path class="m-arc m-arc-r" pathLength="1" d="M71.9 15.6 A46 46 0 0 1 68 105.3"/>
+        <path class="m-v" pathLength="1" d="M48.1 15.6 L60 56 L71.9 15.6"/>
+        <path class="m-stem" pathLength="1" d="M60 56 L60 106"/>
+      </g>
+    </defs>
+  </svg>
+
+  <!-- Loader -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader__inner">
+      <svg class="mono mono--draw" viewBox="0 0 120 120"><use href="#mono-paths"/></svg>
+      <div class="loader__brand">
+        <span class="loader__word">YOU &amp; ME</span>
+        <span class="loader__sub">Beauty Center</span>
+      </div>
+      <div class="loader__count"><span id="loaderCount">0</span>%</div>
+    </div>
+    <div class="loader__curtain"></div>
+  </div>
+
+  <!-- Curseur -->
+  <div class="cursor" id="cursor" aria-hidden="true"><span class="cursor__label" id="cursorLabel"></span></div>
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+
+  <!-- Progression -->
+  <div class="progress" id="progress" aria-hidden="true"></div>
+
+  <!-- Header -->
+  <header class="header" id="header">
+    <a href="#top" class="header__logo" data-cursor="Accueil">
+      <svg class="mono mono--sm" viewBox="0 0 120 120"><use href="#mono-paths"/></svg>
+      <span class="header__name">YOU &amp; ME</span>
+    </a>
+    <nav class="nav" id="nav" aria-label="Navigation principale">
+      <a href="#soins" class="nav__link"><span data-text="Soins">Soins</span></a>
+      <a href="#maison" class="nav__link"><span data-text="La maison">La maison</span></a>
+      <a href="#rituel" class="nav__link"><span data-text="Rituel">Rituel</span></a>
+      <a href="#avis" class="nav__link"><span data-text="Avis">Avis</span></a>
+      <a href="#carte" class="nav__link"><span data-text="Carte">Carte</span></a>
+    </nav>
+    <a href="#reserver" class="btn btn--pill magnetic" data-cursor="Go"><span>Réserver</span></a>
+    <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false"><span></span><span></span></button>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <div class="hero__bg-circle" data-speed="-0.2"></div>
+      <div class="hero__grid">
+        <div class="hero__text">
+          <p class="eyebrow reveal-up">Institut de beauté — depuis 2016</p>
+          <h1 class="hero__title split" aria-label="La beauté, entre vous et nous.">
+            <span class="line">La beauté,</span>
+            <span class="line">entre <em>vous</em></span>
+            <span class="line">&amp; <em>nous.</em></span>
+          </h1>
+          <p class="hero__lead reveal-up">Soins du visage, massages, onglerie et mise en beauté. Un lieu calme, des gestes précis, un rituel construit à deux.</p>
+          <div class="hero__ctas reveal-up">
+            <a href="#reserver" class="btn btn--pill btn--lg magnetic" data-cursor="Go"><span>Prendre rendez-vous</span></a>
+            <a href="#soins" class="btn btn--ghost" data-cursor="Voir"><span>Découvrir les soins</span></a>
+          </div>
+        </div>
+        <div class="hero__visual" id="heroVisual">
+          <div class="hero__ring" data-depth="0.6"></div>
+          <svg class="mono mono--hero" id="heroMono" viewBox="0 0 120 120" data-depth="1.2"><use href="#mono-paths"/></svg>
+          <div class="hero__orbit" data-depth="0.3">
+            <svg viewBox="0 0 300 300">
+              <defs><path id="circlePath" d="M150 150 m-120 0 a120 120 0 1 1 240 0 a120 120 0 1 1 -240 0"/></defs>
+              <text><textPath href="#circlePath">YOU &amp; ME · BEAUTY CENTER · SOIN · ÉCLAT · RITUEL · </textPath></text>
+            </svg>
+          </div>
+          <span class="hero__tag hero__tag--1" data-depth="1.6">Éclat</span>
+          <span class="hero__tag hero__tag--2" data-depth="2">Douceur</span>
+          <span class="hero__tag hero__tag--3" data-depth="1.3">Rituel</span>
+        </div>
+      </div>
+      <a href="#manifeste" class="scroll-hint" data-cursor="Scroll">
+        <span>Défiler</span>
+        <i></i>
+      </a>
+    </section>
+
+    <!-- MARQUEE -->
+    <section class="band marquee" aria-label="Nos expertises">
+      <div class="marquee__track" id="marquee">
+        <div class="marquee__group">
+          <span>Soins visage</span><b>✦</b><span>Massages</span><b>✦</b><span>Onglerie</span><b>✦</b><span>Épilation</span><b>✦</b><span>Regard</span><b>✦</b><span>Maquillage</span><b>✦</b>
+        </div>
+        <div class="marquee__group" aria-hidden="true">
+          <span>Soins visage</span><b>✦</b><span>Massages</span><b>✦</b><span>Onglerie</span><b>✦</b><span>Épilation</span><b>✦</b><span>Regard</span><b>✦</b><span>Maquillage</span><b>✦</b>
+        </div>
+      </div>
+    </section>
+
+    <!-- MANIFESTE -->
+    <section class="manifesto container" id="manifeste">
+      <p class="eyebrow">Manifeste</p>
+      <p class="manifesto__text" id="manifesto">Chez You &amp; Me, chaque soin commence par une conversation. Nous écoutons votre peau, votre rythme, vos envies — puis nous composons un rituel qui vous ressemble. Pas de promesses bruyantes, seulement des gestes justes et des résultats que l'on voit.</p>
+    </section>
+
+    <!-- SOINS -->
+    <section class="services container" id="soins">
+      <div class="section-head">
+        <p class="eyebrow reveal-up">Nos soins</p>
+        <h2 class="section-title split"><span class="line">Six expertises,</span><span class="line">un même soin du détail.</span></h2>
+      </div>
+
+      <ul class="services__list" id="servicesList">
+        <li class="service" data-visual="v1" data-cursor="Voir">
+          <span class="service__num">01</span>
+          <h3 class="service__name">Soins du visage</h3>
+          <p class="service__desc">Hydratation, éclat, anti-âge — diagnostic de peau inclus.</p>
+          <span class="service__meta">60 — 90 min</span>
+          <span class="service__arrow">→</span>
+        </li>
+        <li class="service" data-visual="v2" data-cursor="Voir">
+          <span class="service__num">02</span>
+          <h3 class="service__name">Massages bien-être</h3>
+          <p class="service__desc">Californien, pierres chaudes, drainant. Le corps relâche, l'esprit suit.</p>
+          <span class="service__meta">45 — 75 min</span>
+          <span class="service__arrow">→</span>
+        </li>
+        <li class="service" data-visual="v3" data-cursor="Voir">
+          <span class="service__num">03</span>
+          <h3 class="service__name">Onglerie</h3>
+          <p class="service__desc">Manucure, semi-permanent, gel. Des mains soignées, longtemps.</p>
+          <span class="service__meta">30 — 90 min</span>
+          <span class="service__arrow">→</span>
+        </li>
+        <li class="service" data-visual="v4" data-cursor="Voir">
+          <span class="service__num">04</span>
+          <h3 class="service__name">Épilation</h3>
+          <p class="service__desc">Cire douce et méthodes respectueuses des peaux sensibles.</p>
+          <span class="service__meta">15 — 60 min</span>
+          <span class="service__arrow">→</span>
+        </li>
+        <li class="service" data-visual="v5" data-cursor="Voir">
+          <span class="service__num">05</span>
+          <h3 class="service__name">Regard</h3>
+          <p class="service__desc">Rehaussement de cils, teinture, restructuration des sourcils.</p>
+          <span class="service__meta">30 — 60 min</span>
+          <span class="service__arrow">→</span>
+        </li>
+        <li class="service" data-visual="v6" data-cursor="Voir">
+          <span class="service__num">06</span>
+          <h3 class="service__name">Maquillage</h3>
+          <p class="service__desc">Jour, soirée, mariée. Un teint lumineux, jamais masqué.</p>
+          <span class="service__meta">45 — 120 min</span>
+          <span class="service__arrow">→</span>
+        </li>
+      </ul>
+
+      <!-- Vignette flottante qui suit la souris -->
+      <div class="float-visual" id="floatVisual" aria-hidden="true">
+        <div class="float-visual__inner">
+          <div class="visual v1"></div><div class="visual v2"></div><div class="visual v3"></div>
+          <div class="visual v4"></div><div class="visual v5"></div><div class="visual v6"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LA MAISON -->
+    <section class="band band--soft house" id="maison">
+      <div class="house__grid container">
+        <figure class="house__media">
+          <div class="clip-reveal">
+            <div class="visual v2 parallax-img" data-speed="0.12"><span class="visual__mono"><svg class="mono" viewBox="0 0 120 120"><use href="#mono-paths"/></svg></span></div>
+          </div>
+          <figcaption class="house__caption">Le salon, lumière du matin</figcaption>
+          <div class="house__card reveal-up">
+            <p class="house__card-title">Le diagnostic offert</p>
+            <p>Chaque premier rendez-vous commence par 10 minutes d'analyse de peau.</p>
+          </div>
+        </figure>
+        <div class="house__text">
+          <p class="eyebrow reveal-up">La maison</p>
+          <h2 class="section-title split"><span class="line">Un lieu pensé</span><span class="line">comme une respiration.</span></h2>
+          <p class="reveal-up">You &amp; Me est né d'une idée simple : la beauté se construit à deux. Votre confiance, notre savoir-faire. Dans un espace clair et silencieux, nos esthéticiennes diplômées prennent le temps — celui de comprendre, puis celui de bien faire.</p>
+          <p class="reveal-up">Nous travaillons avec des marques de soin exigeantes, sélectionnées pour leurs formules et leur respect de la peau.</p>
+          <div class="stats">
+            <div class="stat reveal-up"><span class="stat__num" data-count="8">0</span><span class="stat__label">années d'expertise</span></div>
+            <div class="stat reveal-up"><span class="stat__num" data-count="4200" data-suffix="+">0</span><span class="stat__label">clientes fidèles</span></div>
+            <div class="stat reveal-up"><span class="stat__num" data-count="98" data-suffix="%">0</span><span class="stat__label">recommandent</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RITUEL (scroll horizontal) -->
+    <section class="ritual" id="rituel">
+      <div class="ritual__sticky">
+        <div class="ritual__head container">
+          <p class="eyebrow">Le rituel</p>
+          <h2 class="section-title">Quatre temps,<br>un seul fil.</h2>
+          <div class="ritual__bar"><i id="ritualBar"></i></div>
+        </div>
+        <div class="ritual__track" id="ritualTrack">
+          <article class="step tilt">
+            <span class="step__num">I</span>
+            <div class="visual v1 step__visual"></div>
+            <h3>Écouter</h3>
+            <p>Un échange pour comprendre votre peau, vos habitudes et ce que vous attendez.</p>
+          </article>
+          <article class="step tilt">
+            <span class="step__num">II</span>
+            <div class="visual v4 step__visual"></div>
+            <h3>Préparer</h3>
+            <p>Démaquillage, gommage doux et vapeur : la peau s'ouvre au soin.</p>
+          </article>
+          <article class="step tilt">
+            <span class="step__num">III</span>
+            <div class="visual v5 step__visual"></div>
+            <h3>Soigner</h3>
+            <p>Actifs ciblés, modelage du visage et masque adaptés à votre diagnostic.</p>
+          </article>
+          <article class="step tilt">
+            <span class="step__num">IV</span>
+            <div class="visual v3 step__visual"></div>
+            <h3>Prolonger</h3>
+            <p>Une routine sur-mesure à poursuivre chez vous, jusqu'au prochain rendez-vous.</p>
+          </article>
+          <article class="step step--cta">
+            <svg class="mono" viewBox="0 0 120 120"><use href="#mono-paths"/></svg>
+            <h3>À vous de jouer.</h3>
+            <a href="#reserver" class="btn btn--pill magnetic" data-cursor="Go"><span>Réserver mon rituel</span></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- MONOGRAMME AU SCROLL -->
+    <section class="signature" id="signature">
+      <div class="signature__sticky">
+        <svg class="mono mono--scroll" id="scrollMono" viewBox="0 0 120 120"><use href="#mono-paths"/></svg>
+        <div class="signature__words">
+          <span class="signature__word" id="sigYou">You</span>
+          <span class="signature__amp" id="sigAmp">&amp;</span>
+          <span class="signature__word" id="sigMe">Me</span>
+        </div>
+        <p class="signature__caption" id="sigCaption">Deux lettres, un cercle. Vous au centre, nous autour.</p>
+      </div>
+    </section>
+
+    <!-- AVIS -->
+    <section class="band reviews" id="avis">
+      <div class="container">
+        <div class="section-head section-head--center">
+          <p class="eyebrow reveal-up">Elles en parlent</p>
+          <h2 class="section-title split"><span class="line">Ce que l'on retient</span><span class="line">de nous.</span></h2>
+        </div>
+        <div class="slider" id="slider" data-cursor="Glisser">
+          <div class="slider__track" id="sliderTrack">
+            <blockquote class="review">
+              <div class="stars" aria-label="5 étoiles">★★★★★</div>
+              <p>« Le soin éclat a littéralement réveillé ma peau. L'accueil est d'une douceur rare, je ne vais plus ailleurs. »</p>
+              <cite>Sarah M. — Soin éclat</cite>
+            </blockquote>
+            <blockquote class="review">
+              <div class="stars" aria-label="5 étoiles">★★★★★</div>
+              <p>« Un massage aux pierres chaudes comme je n'en avais jamais eu. Le temps s'arrête vraiment. »</p>
+              <cite>Inès K. — Massage pierres chaudes</cite>
+            </blockquote>
+            <blockquote class="review">
+              <div class="stars" aria-label="5 étoiles">★★★★★</div>
+              <p>« Mon semi-permanent tient trois semaines sans bouger. Précision et propreté irréprochables. »</p>
+              <cite>Lina B. — Onglerie</cite>
+            </blockquote>
+            <blockquote class="review">
+              <div class="stars" aria-label="5 étoiles">★★★★★</div>
+              <p>« Maquillage de mariée parfait du matin au soir. Naturel, lumineux, exactement moi. »</p>
+              <cite>Yasmine R. — Maquillage mariée</cite>
+            </blockquote>
+          </div>
+        </div>
+        <div class="slider__nav">
+          <button class="slider__btn magnetic" id="prevBtn" aria-label="Avis précédent">←</button>
+          <div class="slider__dots" id="sliderDots"></div>
+          <button class="slider__btn magnetic" id="nextBtn" aria-label="Avis suivant">→</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CARTE / TARIFS -->
+    <section class="menu container" id="carte">
+      <div class="section-head">
+        <p class="eyebrow reveal-up">La carte</p>
+        <h2 class="section-title split"><span class="line">Nos rituels</span><span class="line">signature.</span></h2>
+      </div>
+      <div class="menu__grid">
+        <article class="card tilt reveal-up">
+          <span class="badge">Visage</span>
+          <h3>Rituel Éclat</h3>
+          <p>Nettoyage profond, exfoliation enzymatique, masque lumière et modelage.</p>
+          <div class="card__foot"><span class="card__time">60 min</span><span class="card__price">65 €</span></div>
+          <span class="card__line"></span>
+        </article>
+        <article class="card card--featured tilt reveal-up">
+          <span class="badge badge--fill">Le plus demandé</span>
+          <h3>You &amp; Me Signature</h3>
+          <p>Soin visage complet + massage dos et nuque. Notre rituel le plus complet.</p>
+          <div class="card__foot"><span class="card__time">90 min</span><span class="card__price">110 €</span></div>
+          <span class="card__line"></span>
+        </article>
+        <article class="card tilt reveal-up">
+          <span class="badge">Corps</span>
+          <h3>Pierres Chaudes</h3>
+          <p>Massage enveloppant aux pierres de basalte pour dénouer les tensions.</p>
+          <div class="card__foot"><span class="card__time">75 min</span><span class="card__price">85 €</span></div>
+          <span class="card__line"></span>
+        </article>
+        <article class="card tilt reveal-up">
+          <span class="badge">Mains</span>
+          <h3>Manucure Semi-permanent</h3>
+          <p>Préparation de l'ongle, soin des cuticules et pose couleur longue tenue.</p>
+          <div class="card__foot"><span class="card__time">60 min</span><span class="card__price">40 €</span></div>
+          <span class="card__line"></span>
+        </article>
+        <article class="card tilt reveal-up">
+          <span class="badge">Regard</span>
+          <h3>Rehaussement de cils</h3>
+          <p>Courbure naturelle et teinture pour un regard ouvert pendant 6 semaines.</p>
+          <div class="card__foot"><span class="card__time">50 min</span><span class="card__price">55 €</span></div>
+          <span class="card__line"></span>
+        </article>
+        <article class="card tilt reveal-up">
+          <span class="badge">Teint</span>
+          <h3>Mise en beauté</h3>
+          <p>Maquillage jour ou soirée, adapté à votre carnation et à l'occasion.</p>
+          <div class="card__foot"><span class="card__time">45 min</span><span class="card__price">45 €</span></div>
+          <span class="card__line"></span>
+        </article>
+      </div>
+    </section>
+
+    <!-- RÉSERVATION -->
+    <section class="band band--soft booking" id="reserver">
+      <div class="booking__grid container">
+        <div class="booking__intro">
+          <p class="eyebrow reveal-up">Rendez-vous</p>
+          <h2 class="section-title split"><span class="line">Prenons un moment,</span><span class="line">vous &amp; nous.</span></h2>
+          <ul class="booking__info reveal-up">
+            <li><span>Adresse</span>12 rue des Lilas, 75011 Paris</li>
+            <li><span>Horaires</span>Mar — Sam · 10h — 19h30</li>
+            <li><span>Téléphone</span><a href="tel:+33100000000" class="link-line">01 00 00 00 00</a></li>
+          </ul>
+        </div>
+        <form class="form reveal-up" id="bookingForm" novalidate>
+          <div class="field">
+            <input type="text" id="fName" name="name" placeholder=" " required>
+            <label for="fName">Nom &amp; prénom</label>
+            <i></i>
+          </div>
+          <div class="field">
+            <input type="tel" id="fPhone" name="phone" placeholder=" " required>
+            <label for="fPhone">Téléphone</label>
+            <i></i>
+          </div>
+          <div class="field">
+            <input type="email" id="fEmail" name="email" placeholder=" ">
+            <label for="fEmail">E-mail (facultatif)</label>
+            <i></i>
+          </div>
+          <fieldset class="chips">
+            <legend>Soin souhaité</legend>
+            <label class="chip"><input type="radio" name="soin" value="visage" checked><span>Visage</span></label>
+            <label class="chip"><input type="radio" name="soin" value="massage"><span>Massage</span></label>
+            <label class="chip"><input type="radio" name="soin" value="ongles"><span>Onglerie</span></label>
+            <label class="chip"><input type="radio" name="soin" value="epilation"><span>Épilation</span></label>
+            <label class="chip"><input type="radio" name="soin" value="regard"><span>Regard</span></label>
+            <label class="chip"><input type="radio" name="soin" value="maquillage"><span>Maquillage</span></label>
+          </fieldset>
+          <button type="submit" class="btn btn--pill btn--lg btn--submit magnetic" data-cursor="Envoyer"><span>Envoyer ma demande</span></button>
+          <p class="form__msg" id="formMsg" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer__top container">
+      <div>
+        <svg class="mono mono--footer" viewBox="0 0 120 120"><use href="#mono-paths"/></svg>
+        <p class="footer__tag">Beauty Center</p>
+      </div>
+      <div class="footer__cols">
+        <div>
+          <p class="footer__label">Explorer</p>
+          <a href="#soins" class="link-line">Soins</a>
+          <a href="#maison" class="link-line">La maison</a>
+          <a href="#carte" class="link-line">Carte</a>
+        </div>
+        <div>
+          <p class="footer__label">Suivre</p>
+          <a href="#" class="link-line">Instagram</a>
+          <a href="#" class="link-line">TikTok</a>
+          <a href="#" class="link-line">Facebook</a>
+        </div>
+        <div class="footer__news">
+          <p class="footer__label">Lettre</p>
+          <form class="news" id="newsForm">
+            <input type="email" placeholder="Votre e-mail" aria-label="Votre e-mail" required>
+            <button type="submit" aria-label="S'inscrire" data-cursor="OK">→</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="footer__giant" id="giant" aria-label="You & Me">
+      <span>Y</span><span>O</span><span>U</span><span class="amp">&amp;</span><span>M</span><span>E</span>
+    </div>
+    <div class="footer__bottom container">
+      <span>© <span id="year"></span> You &amp; Me Beauty Center</span>
+      <a href="#top" class="link-line" data-cursor="Haut">Retour en haut ↑</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
