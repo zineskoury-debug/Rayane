@@ -1,8 +1,15 @@
 /* ==========================================================
-   YOU & ME — Beauty Center · animations
+   YOU & ME — Barber Shop · Casablanca · animations
    Vanilla JS, aucune dépendance.
    ========================================================== */
 (() => {
+  /* ---------- Réglages ---------- */
+  // Numéro WhatsApp au format international sans "+" ni espaces (ex. "212600000000").
+  // Laisser vide pour afficher un simple message de confirmation.
+  const WHATSAPP_NUMBER = '';
+  // Horaires d'ouverture (heure de Casablanca). 0 = dimanche … 6 = samedi.
+  const HOURS = { 0: null, 1: [10, 21], 2: [10, 21], 3: [10, 21], 4: [10, 21], 5: [10, 21], 6: [10, 21] };
+
   const $ = (s, c = document) => c.querySelector(s);
   const $$ = (s, c = document) => [...c.querySelectorAll(s)];
   const lerp = (a, b, t) => a + (b - a) * t;
@@ -11,8 +18,7 @@
   const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   const mouse = { x: innerWidth / 2, y: innerHeight / 2 };
-  let scrollY = window.scrollY;
-  let lastScrollY = scrollY;
+  let lastScrollY = window.scrollY;
   let velocity = 0;
 
   /* ---------- Monogrammes : tracés en ligne pour pouvoir les animer ---------- */
@@ -50,24 +56,22 @@
   /* ---------- Manifeste : mots qui s'allument au scroll ---------- */
   const manifesto = $('#manifesto');
   const manifestoWords = [];
-  if (manifesto) {
-    const text = manifesto.textContent.trim();
-    manifesto.textContent = '';
-    text.split(/\s+/).forEach((word, idx, arr) => {
-      const s = document.createElement('span');
-      s.className = 'w';
-      s.textContent = word;
-      manifesto.append(s);
-      if (idx < arr.length - 1) manifesto.append(' ');
-      manifestoWords.push(s);
-    });
-  }
+  const mText = manifesto.textContent.trim();
+  manifesto.textContent = '';
+  mText.split(/\s+/).forEach((word, idx, arr) => {
+    const s = document.createElement('span');
+    s.className = 'w';
+    s.textContent = word;
+    manifesto.append(s);
+    if (idx < arr.length - 1) manifesto.append(' ');
+    manifestoWords.push(s);
+  });
 
   /* ---------- Loader ---------- */
   const loader = $('#loader');
   const loaderCount = $('#loaderCount');
   document.body.classList.add('is-loading');
-  const LOAD_TIME = reduced ? 200 : 2000;
+  const LOAD_TIME = reduced ? 200 : 2300;
   const t0 = performance.now();
   (function count(now) {
     const p = clamp((now - t0) / LOAD_TIME);
@@ -87,7 +91,6 @@
     entries.forEach(e => {
       if (!e.isIntersecting) return;
       const el = e.target;
-      if (el.closest('#hero') && !document.body.classList.contains('is-ready')) return;
       el.classList.add('is-in');
       // clip-path masque l'élément pour l'observer : on observe son parent
       $$('.clip-reveal', el).forEach(c => c.classList.add('is-in'));
@@ -96,10 +99,10 @@
     });
   }, { threshold: 0.18, rootMargin: '0px 0px -6% 0px' });
 
-  $$('.reveal-up, .split, .house__media, .footer__giant, [data-count]').forEach(el => {
+  $$('.reveal-up, .split, .house__media, .map, .footer__giant, [data-count]').forEach(el => {
     if (!el.closest('#hero')) io.observe(el);
   });
-  $$('.service').forEach((el, i) => { el.style.transitionDelay = `${(i % 6) * 0.08}s`; io.observe(el); });
+  $$('.service').forEach((el, i) => { el.style.transitionDelay = `${i * 0.08}s`; io.observe(el); });
   $$('.footer__giant span').forEach((s, i) => { s.style.transitionDelay = `${i * 0.07}s`; });
   // Retirer le délai après l'entrée pour que le survol reste vif
   $$('.service, .footer__giant span').forEach(el => el.addEventListener('transitionend', () => { el.style.transitionDelay = ''; }, { once: true }));
@@ -107,17 +110,15 @@
   function countUp(el) {
     const target = +el.dataset.count;
     const suffix = el.dataset.suffix || '';
-    const dur = 1800;
     const start = performance.now();
-    const fmt = n => n.toLocaleString('fr-FR');
     (function step(now) {
-      const p = clamp((now - start) / dur);
-      el.textContent = fmt(Math.round(target * (1 - Math.pow(1 - p, 4)))) + suffix;
+      const p = clamp((now - start) / 1800);
+      el.textContent = Math.round(target * (1 - Math.pow(1 - p, 4))).toLocaleString('fr-FR') + suffix;
       if (p < 1) requestAnimationFrame(step);
     })(start);
   }
 
-  /* ---------- Curseur personnalisé ---------- */
+  /* ---------- Curseur ---------- */
   const cursor = $('#cursor');
   const cursorDot = $('#cursorDot');
   const cursorLabel = $('#cursorLabel');
@@ -128,14 +129,15 @@
     mouse.x = e.clientX; mouse.y = e.clientY;
     cursorDot.style.transform = `translate(${mouse.x}px, ${mouse.y}px)`;
   }, { passive: true });
-  document.addEventListener('mousedown', () => cursor.classList.add('is-down'));
-  document.addEventListener('mouseup', () => cursor.classList.remove('is-down'));
   document.addEventListener('mouseleave', () => { cursor.classList.add('is-hidden'); cursorDot.classList.add('is-hidden'); });
   document.addEventListener('mouseenter', () => { cursor.classList.remove('is-hidden'); cursorDot.classList.remove('is-hidden'); });
-
   document.addEventListener('mouseover', e => {
     const labelled = e.target.closest('[data-cursor]');
-    const link = e.target.closest('a, button, label, input');
+    const link = e.target.closest('a, button, label, input, select');
+    // La carte Google est une iframe : on masque notre curseur au-dessus
+    const overMap = e.target.closest('.map');
+    cursor.classList.toggle('is-hidden', !!overMap);
+    cursorDot.classList.toggle('is-hidden', !!overMap);
     cursor.classList.toggle('is-hover', !!labelled);
     cursor.classList.toggle('is-link', !labelled && !!link);
     cursorLabel.textContent = labelled ? labelled.dataset.cursor : '';
@@ -144,25 +146,20 @@
   /* ---------- Boutons magnétiques ---------- */
   if (finePointer && !reduced) {
     $$('.magnetic').forEach(el => {
-      const strength = 0.35;
       el.addEventListener('mousemove', e => {
         const r = el.getBoundingClientRect();
-        const x = e.clientX - (r.left + r.width / 2);
-        const y = e.clientY - (r.top + r.height / 2);
-        el.style.transform = `translate(${x * strength}px, ${y * strength}px)`;
-        const inner = el.firstElementChild;
-        if (inner) inner.style.transform = `translate(${x * strength * 0.4}px, ${y * strength * 0.4}px)`;
+        const x = (e.clientX - (r.left + r.width / 2)) * 0.35;
+        const y = (e.clientY - (r.top + r.height / 2)) * 0.35;
+        el.style.transform = `translate(${x}px, ${y}px)`;
+        if (el.firstElementChild) el.firstElementChild.style.transform = `translate(${x * 0.4}px, ${y * 0.4}px)`;
       });
       el.addEventListener('mouseleave', () => {
         el.style.transform = '';
-        const inner = el.firstElementChild;
-        if (inner) inner.style.transform = '';
+        if (el.firstElementChild) el.firstElementChild.style.transform = '';
       });
     });
-  }
 
-  /* ---------- Inclinaison 3D + lumière des cartes ---------- */
-  if (finePointer && !reduced) {
+    /* Inclinaison 3D + halo des cartes */
     $$('.tilt').forEach(el => {
       el.addEventListener('mousemove', e => {
         if (el.classList.contains('reveal-up') && !el.classList.contains('is-in')) return;
@@ -181,17 +178,13 @@
   const header = $('#header');
   const nav = $('#nav');
   const burger = $('#burger');
-  burger.addEventListener('click', () => {
-    const open = burger.getAttribute('aria-expanded') !== 'true';
+  const setMenu = open => {
     burger.setAttribute('aria-expanded', open);
     nav.classList.toggle('is-open', open);
     document.body.style.overflow = open ? 'hidden' : '';
-  });
-  $$('a', nav).forEach(a => a.addEventListener('click', () => {
-    burger.setAttribute('aria-expanded', 'false');
-    nav.classList.remove('is-open');
-    document.body.style.overflow = '';
-  }));
+  };
+  burger.addEventListener('click', () => setMenu(burger.getAttribute('aria-expanded') !== 'true'));
+  $$('a', nav).forEach(a => a.addEventListener('click', () => setMenu(false)));
 
   const navLinks = $$('.nav__link');
   const sectionIO = new IntersectionObserver(entries => {
@@ -214,12 +207,20 @@
     row.addEventListener('mouseleave', () => floatVisual.classList.remove('is-on'));
   });
 
-  /* ---------- Marquee ---------- */
+  /* ---------- Éléments pilotés par la boucle ---------- */
   const marquee = $('#marquee');
-  let mqX = 0;
-  let mqDir = -1;
+  let mqX = 0, mqDir = -1;
 
-  /* ---------- Rituel horizontal ---------- */
+  const pole = $('#pole');
+  let poleY = 0;
+
+  const cut = $('#cut');
+  const cutTrack = $('.cut__track', cut);
+  const cutDone = $('#cutDone');
+  const cutScissors = $('#cutScissors');
+  const bladeTop = $('#bladeTop');
+  const bladeBottom = $('#bladeBottom');
+
   const ritual = $('#rituel');
   const ritualTrack = $('#ritualTrack');
   const ritualBar = $('#ritualBar');
@@ -229,19 +230,18 @@
     ritual.style.height = `${innerHeight + ritualDistance}px`;
   }
 
-  /* ---------- Signature ---------- */
   const signature = $('#signature');
   const scrollMono = $('#scrollMono');
-  const sigPaths = $$('path', scrollMono);
+  const sigPaths = $$('path:not(.m-tri)', scrollMono);
+  const sigTri = $('.m-tri', scrollMono);
   const sigYou = $('#sigYou'), sigMe = $('#sigMe'), sigAmp = $('#sigAmp'), sigCaption = $('#sigCaption');
 
-  /* ---------- Parallax ---------- */
   const parallaxEls = $$('[data-speed]').map(el => ({ el, speed: +el.dataset.speed, y: 0 }));
   const depthEls = $$('#heroVisual [data-depth]').map(el => ({ el, depth: +el.dataset.depth, x: 0, y: 0 }));
   const heroMono = $('#heroMono');
   const progress = $('#progress');
 
-  const sectionProgress = (el) => {
+  const sectionProgress = el => {
     const r = el.getBoundingClientRect();
     const total = r.height - innerHeight;
     return total > 0 ? clamp(-r.top / total) : 0;
@@ -250,37 +250,32 @@
   /* ---------- Boucle principale ---------- */
   let headerHidden = false;
   function tick() {
-    scrollY = window.scrollY;
+    const scrollY = window.scrollY;
     const delta = scrollY - lastScrollY;
     lastScrollY = scrollY;
     velocity = lerp(velocity, delta, 0.15);
 
-    // Barre de progression
     const max = document.documentElement.scrollHeight - innerHeight;
     progress.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
 
-    // Header
     header.classList.toggle('is-scrolled', scrollY > 40);
     if (Math.abs(delta) > 4 && !nav.classList.contains('is-open')) {
       const hide = delta > 0 && scrollY > innerHeight * 0.6;
       if (hide !== headerHidden) { headerHidden = hide; header.classList.toggle('is-hidden', hide); }
     }
 
-    // Curseur
     cur.x = lerp(cur.x, mouse.x, 0.18);
     cur.y = lerp(cur.y, mouse.y, 0.18);
     cursor.style.transform = `translate(${cur.x}px, ${cur.y}px)`;
 
     if (!reduced) {
-      // Parallax vertical
       parallaxEls.forEach(p => {
         const r = p.el.getBoundingClientRect();
-        const center = r.top + r.height / 2 - innerHeight / 2;
-        p.y = lerp(p.y, center * p.speed, 0.1);
+        p.y = lerp(p.y, (r.top + r.height / 2 - innerHeight / 2) * p.speed, 0.1);
         p.el.style.translate = `0 ${p.y.toFixed(2)}px`;
       });
 
-      // Hero : profondeur à la souris + rotation au scroll
+      // Hero : profondeur à la souris, rotation du monogramme au scroll
       const mx = (mouse.x / innerWidth - 0.5) * 2;
       const my = (mouse.y / innerHeight - 0.5) * 2;
       depthEls.forEach(d => {
@@ -290,6 +285,10 @@
         d.el.style.transform = `translate(${d.x.toFixed(2)}px, ${d.y.toFixed(2)}px)${rot}`;
       });
 
+      // Enseigne de barbier : tourne en continu, s'emballe au scroll
+      poleY += 0.4 + Math.min(Math.abs(velocity) * 0.5, 14);
+      pole.style.backgroundPosition = `0 ${poleY.toFixed(1)}px`;
+
       // Marquee : vitesse et sens suivent le scroll
       if (Math.abs(delta) > 0.5) mqDir = delta > 0 ? -1 : 1;
       mqX += mqDir * (0.6 + Math.min(Math.abs(velocity) * 0.25, 12));
@@ -298,7 +297,6 @@
       if (mqX > 0) mqX -= half;
       marquee.style.transform = `translate3d(${mqX}px,0,0) skewX(${clamp(velocity * -0.15, -8, 8)}deg)`;
 
-      // Vignette des soins
       fv.x = lerp(fv.x, mouse.x, 0.12);
       fv.y = lerp(fv.y, mouse.y, 0.12);
       fv.rot = lerp(fv.rot, (mouse.x - fv.x) * 0.08, 0.1);
@@ -306,13 +304,21 @@
       floatInner.style.transform = `rotate(${clamp(fv.rot, -12, 12)}deg)`;
     }
 
+    // Ciseaux : avancent le long de la ligne pointillée et la découpent
+    const cr = cutTrack.getBoundingClientRect();
+    const cp = reduced ? 1 : clamp((innerHeight * 0.9 - cr.top) / (innerHeight * 0.65));
+    const cx = cp * (cr.width - 60);
+    cutScissors.style.transform = `translateX(${cx}px)`;
+    cutDone.style.width = `${Math.max(0, cx - 20)}px`;
+    const open = cp > 0 && cp < 1 ? Math.abs(Math.sin(cp * Math.PI * 9)) * 22 : (cp >= 1 ? 4 : 18);
+    bladeTop.style.transform = `rotate(${-open}deg)`;
+    bladeBottom.style.transform = `rotate(${open}deg)`;
+
     // Manifeste
-    if (manifestoWords.length) {
-      const r = manifesto.getBoundingClientRect();
-      const p = reduced ? 1 : clamp((innerHeight * 0.85 - r.top) / (r.height + innerHeight * 0.35));
-      const lit = Math.floor(p * manifestoWords.length);
-      manifestoWords.forEach((w, i) => w.classList.toggle('on', i < lit));
-    }
+    const r = manifesto.getBoundingClientRect();
+    const mp = reduced ? 1 : clamp((innerHeight * 0.85 - r.top) / (r.height + innerHeight * 0.35));
+    const lit = Math.floor(mp * manifestoWords.length);
+    manifestoWords.forEach((w, i) => w.classList.toggle('on', i < lit));
 
     // Rituel horizontal
     const rp = sectionProgress(ritual);
@@ -320,15 +326,15 @@
     ritualBar.style.transform = `scaleX(${rp})`;
 
     // Signature : le monogramme se dessine
-    const sp = sectionProgress(signature);
-    const segs = [[0, .45], [.05, .5], [.35, .7], [.5, .8]];
+    const sp = reduced ? 1 : sectionProgress(signature);
+    const segs = [[0, .45], [.05, .5], [.4, .7]];
     sigPaths.forEach((path, i) => {
-      const [a, b] = segs[i] || [0, 1];
+      const [a, b] = segs[i];
       path.style.strokeDashoffset = 1 - clamp((sp - a) / (b - a));
     });
+    sigTri.style.transform = `scaleY(${clamp((sp - .6) / .15)})`;
     scrollMono.style.transform = `rotate(${(1 - sp) * -40}deg) scale(${0.85 + sp * 0.15})`;
-    const wp = clamp((sp - 0.1) / 0.5);
-    const ease = 1 - Math.pow(1 - wp, 3);
+    const ease = 1 - Math.pow(1 - clamp((sp - 0.1) / 0.5), 3);
     sigYou.style.transform = `translateX(${(1 - ease) * -40}vw)`;
     sigMe.style.transform = `translateX(${(1 - ease) * 40}vw)`;
     sigYou.style.opacity = sigMe.style.opacity = ease;
@@ -372,20 +378,68 @@
   slider.addEventListener('pointerdown', e => { dragStart = e.clientX; slider.classList.add('is-dragging'); slider.setPointerCapture(e.pointerId); });
   slider.addEventListener('pointermove', e => {
     if (dragStart === null) return;
-    const dx = e.clientX - dragStart;
-    sliderTrack.style.transform = `translateX(calc(${-current * 100}% + ${dx}px))`;
+    sliderTrack.style.transform = `translateX(calc(${-current * 100}% + ${e.clientX - dragStart}px))`;
   });
   const endDrag = e => {
     if (dragStart === null) return;
     const dx = e.clientX - dragStart;
     dragStart = null;
     slider.classList.remove('is-dragging');
-    if (Math.abs(dx) > 60) goTo(current + (dx < 0 ? 1 : -1)); else goTo(current);
+    goTo(Math.abs(dx) > 60 ? current + (dx < 0 ? 1 : -1) : current);
   };
   slider.addEventListener('pointerup', endDrag);
   slider.addEventListener('pointercancel', endDrag);
 
-  /* ---------- Formulaires ---------- */
+  /* ---------- Statut ouvert / fermé (heure de Casablanca) ---------- */
+  function casablancaNow() {
+    const parts = new Intl.DateTimeFormat('en-GB', { timeZone: 'Africa/Casablanca', weekday: 'short', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' }).formatToParts(new Date());
+    const get = t => parts.find(p => p.type === t).value;
+    const day = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(get('weekday'));
+    return { day, hour: +get('hour') + +get('minute') / 60 };
+  }
+  function updateStatus() {
+    const status = $('#status');
+    const text = $('#statusText');
+    try {
+      const { day, hour } = casablancaNow();
+      const today = HOURS[day];
+      const isOpen = !!today && hour >= today[0] && hour < today[1];
+      status.classList.toggle('is-open', isOpen);
+      if (isOpen) text.textContent = `Ouvert maintenant · jusqu'à ${today[1]}h`;
+      else {
+        let d = day, n = 0;
+        if (today && hour < today[0]) { text.textContent = `Fermé · ouvre aujourd'hui à ${today[0]}h`; return; }
+        do { d = (d + 1) % 7; n++; } while (!HOURS[d] && n < 7);
+        const names = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+        text.textContent = `Fermé · ouvre ${n === 1 ? 'demain' : names[d]} à ${HOURS[d][0]}h`;
+      }
+    } catch (_) { text.textContent = 'Lun — Sam · 10h — 21h'; }
+  }
+  updateStatus();
+  setInterval(updateStatus, 60000);
+
+  /* ---------- Réservation ---------- */
+  const form = $('#bookingForm');
+  const formMsg = $('#formMsg');
+  const fDate = $('#fDate');
+  const fTime = $('#fTime');
+  const pad = n => String(n).padStart(2, '0');
+  const today = new Date();
+  fDate.min = `${today.getFullYear()}-${pad(today.getMonth() + 1)}-${pad(today.getDate())}`;
+  fDate.value = fDate.min;
+  function fillSlots() {
+    const d = fDate.value ? new Date(`${fDate.value}T12:00`).getDay() : 1;
+    const h = HOURS[d];
+    fTime.innerHTML = '';
+    if (!h) { fTime.append(new Option('Fermé ce jour', '')); return; }
+    for (let t = h[0]; t < h[1]; t += 0.5) {
+      const label = `${pad(Math.floor(t))}:${t % 1 ? '30' : '00'}`;
+      fTime.append(new Option(label, label));
+    }
+  }
+  fDate.addEventListener('change', fillSlots);
+  fillSlots();
+
   document.addEventListener('click', e => {
     const btn = e.target.closest('.btn--pill');
     if (!btn) return;
@@ -400,12 +454,10 @@
     setTimeout(() => rip.remove(), 800);
   });
 
-  const form = $('#bookingForm');
-  const formMsg = $('#formMsg');
   form.addEventListener('submit', e => {
     e.preventDefault();
     let ok = true;
-    $$('input[required]', form).forEach(input => {
+    $$('[required]', form).forEach(input => {
       const field = input.closest('.field');
       field.classList.remove('is-error');
       if (!input.value.trim()) {
@@ -414,12 +466,21 @@
         field.classList.add('is-error');
       }
     });
-    if (!ok) { formMsg.textContent = 'Merci de compléter votre nom et votre téléphone.'; return; }
-    const name = $('#fName').value.trim().split(' ')[0];
-    formMsg.textContent = `Merci ${name} ! Nous vous rappelons très vite pour confirmer votre rendez-vous.`;
+    if (!ok) { formMsg.textContent = 'Merci de compléter votre nom, téléphone, date et heure.'; return; }
+
+    const name = $('#fName').value.trim();
+    const soin = form.querySelector('input[name="soin"]:checked').value;
+    const date = new Date(`${fDate.value}T12:00`).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+    if (WHATSAPP_NUMBER) {
+      const msg = `Bonjour You & Me, je souhaite réserver : ${soin}, le ${date} à ${fTime.value}. Nom : ${name} — Tél : ${$('#fPhone').value.trim()}`;
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
+    }
+    formMsg.textContent = `Merci ${name.split(' ')[0]} ! Demande « ${soin} » le ${date} à ${fTime.value} bien reçue, nous vous confirmons très vite.`;
     form.reset();
+    fDate.value = fDate.min;
+    fillSlots();
   });
-  $$('input', form).forEach(i => i.addEventListener('input', () => i.closest('.field')?.classList.remove('is-error')));
+  $$('input, select', form).forEach(i => i.addEventListener('input', () => i.closest('.field')?.classList.remove('is-error')));
 
   $('#newsForm').addEventListener('submit', e => {
     e.preventDefault();

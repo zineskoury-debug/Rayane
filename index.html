@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>You &amp; Me — Beauty Center</title>
-  <meta name="description" content="You & Me Beauty Center — soins du visage, massages, onglerie, épilation et maquillage. Un rituel de beauté pensé pour vous, avec nous.">
-  <link rel="icon" href="assets/logo.png">
+  <title>You &amp; Me — Barber Shop · Casablanca</title>
+  <meta name="description" content="You & Me — barber shop de luxe à Casablanca. Coupe signature, dégradé, barbe sculptée, rasage à l'ancienne à la serviette chaude.">
+  <link rel="icon" href="assets/monogram.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
@@ -13,50 +13,51 @@
 </head>
 <body>
 
-  <!-- Monogramme réutilisable : cercle ouvert + Y central = M -->
+  <!-- Monogramme du logo redessiné en SVG (pour l'animer trait par trait) + icônes -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <defs>
-      <g id="mono-paths" fill="none" stroke="currentColor" stroke-width="13">
-        <path class="m-arc m-arc-l" pathLength="1" d="M48.1 15.6 A46 46 0 0 0 52 105.3"/>
-        <path class="m-arc m-arc-r" pathLength="1" d="M71.9 15.6 A46 46 0 0 1 68 105.3"/>
-        <path class="m-v" pathLength="1" d="M48.1 15.6 L60 56 L71.9 15.6"/>
-        <path class="m-stem" pathLength="1" d="M60 56 L60 106"/>
+      <g id="mono-paths" fill="none" stroke="currentColor" stroke-width="13" stroke-linejoin="miter" stroke-miterlimit="8">
+        <path class="m-l" pathLength="1" d="M25.9 99.2 A50 50 0 0 1 34.25 19.7 L60 65.8"/>
+        <path class="m-r" pathLength="1" d="M94.1 99.2 A50 50 0 0 0 85.75 19.7 L60 65.8"/>
+        <path class="m-stem" pathLength="1" d="M60 58 L60 93"/>
+        <path class="m-tri" d="M47 7.5 Q60 6.2 73 7.5 L60 30 Z" fill="currentColor" stroke="none"/>
       </g>
+      <symbol id="i-scissors" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="1.2" vector-effect="non-scaling-stroke"><circle cx="18" cy="48" r="7"/><circle cx="46" cy="48" r="7"/><path d="M22 42 L44 6 M42 42 L20 6"/><circle cx="32" cy="25" r="1.2"/></g></symbol>
+      <symbol id="i-razor" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="1.2"><path d="M14 22 H48 Q57 22 58 31 H14 Z"/><path d="M14 31 H58"/><path d="M14 26 L5 50 Q4 55 9 54 L18 31"/><circle cx="14" cy="26" r="1.5"/></g></symbol>
+      <symbol id="i-comb" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="1.2"><rect x="8" y="20" width="48" height="8"/><path d="M12 28v16M17 28v16M22 28v16M27 28v16M32 28v16M37 28v11M42 28v11M47 28v11M52 28v11"/></g></symbol>
+      <symbol id="i-brush" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="1.2"><path d="M25 58 H39 L37 38 H27 Z"/><path d="M27 38 Q14 22 32 6 Q50 22 37 38"/><path d="M26 46 H38"/></g></symbol>
+      <symbol id="i-clipper" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="1.2"><rect x="20" y="16" width="24" height="44" rx="6"/><path d="M22 16V9M26 16V9M30 16V9M34 16V9M38 16V9M42 16V9M20 16H44"/><rect x="29" y="32" width="6" height="12" rx="3"/></g></symbol>
+      <symbol id="i-bottle" viewBox="0 0 64 64"><g fill="none" stroke="currentColor" stroke-width="1.2"><path d="M26 22 H38 V26 Q46 30 46 38 V58 H18 V38 Q18 30 26 26 Z"/><path d="M28 22 V14 H36 V22M30 14 V7 H34 V14"/><path d="M22 44 H42M22 50 H35"/></g></symbol>
     </defs>
   </svg>
 
-  <!-- Loader -->
+  <!-- Loader : le monogramme se dessine, puis le logo apparaît -->
   <div class="loader" id="loader" aria-hidden="true">
     <div class="loader__inner">
-      <svg class="mono mono--draw" viewBox="0 0 120 120"><use href="#mono-paths"/></svg>
-      <div class="loader__brand">
-        <span class="loader__word">YOU &amp; ME</span>
-        <span class="loader__sub">Beauty Center</span>
-      </div>
+      <svg class="mono mono--draw" viewBox="0 0 120 120"></svg>
+      <img class="loader__wordmark" src="assets/wordmark.png" alt="">
       <div class="loader__count"><span id="loaderCount">0</span>%</div>
     </div>
-    <div class="loader__curtain"></div>
   </div>
 
   <!-- Curseur -->
   <div class="cursor" id="cursor" aria-hidden="true"><span class="cursor__label" id="cursorLabel"></span></div>
   <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
-
-  <!-- Progression -->
   <div class="progress" id="progress" aria-hidden="true"></div>
 
   <!-- Header -->
   <header class="header" id="header">
-    <a href="#top" class="header__logo" data-cursor="Accueil">
-      <svg class="mono mono--sm" viewBox="0 0 120 120"><use href="#mono-paths"/></svg>
+    <a href="#top" class="header__logo" data-cursor="Accueil" aria-label="You & Me — accueil">
+      <img src="assets/monogram.png" alt="" class="header__mono">
       <span class="header__name">YOU &amp; ME</span>
     </a>
     <nav class="nav" id="nav" aria-label="Navigation principale">
       <a href="#soins" class="nav__link"><span data-text="Soins">Soins</span></a>
-      <a href="#maison" class="nav__link"><span data-text="La maison">La maison</span></a>
+      <a href="#salon" class="nav__link"><span data-text="Le salon">Le salon</span></a>
       <a href="#rituel" class="nav__link"><span data-text="Rituel">Rituel</span></a>
-      <a href="#avis" class="nav__link"><span data-text="Avis">Avis</span></a>
       <a href="#carte" class="nav__link"><span data-text="Carte">Carte</span></a>
+      <a href="#avis" class="nav__link"><span data-text="Avis">Avis</span></a>
+      <a href="#acces" class="nav__link"><span data-text="Accès">Accès</span></a>
     </nav>
     <a href="#reserver" class="btn btn--pill magnetic" data-cursor="Go"><span>Réserver</span></a>
     <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false"><span></span><span></span></button>
@@ -69,46 +70,44 @@
       <div class="hero__bg-circle" data-speed="-0.2"></div>
       <div class="hero__grid">
         <div class="hero__text">
-          <p class="eyebrow reveal-up">Institut de beauté — depuis 2016</p>
-          <h1 class="hero__title split" aria-label="La beauté, entre vous et nous.">
-            <span class="line">La beauté,</span>
-            <span class="line">entre <em>vous</em></span>
-            <span class="line">&amp; <em>nous.</em></span>
+          <p class="eyebrow reveal-up">Barber shop de luxe — Casablanca</p>
+          <h1 class="hero__title split" aria-label="L'élégance se taille au millimètre.">
+            <span class="line">L'élégance</span>
+            <span class="line">se taille</span>
+            <span class="line">au <em>millimètre.</em></span>
           </h1>
-          <p class="hero__lead reveal-up">Soins du visage, massages, onglerie et mise en beauté. Un lieu calme, des gestes précis, un rituel construit à deux.</p>
+          <p class="hero__lead reveal-up">Coupes sur-mesure, barbes sculptées, rasage à l'ancienne à la serviette chaude. Un salon où le temps ralentit et où chaque geste est précis.</p>
           <div class="hero__ctas reveal-up">
-            <a href="#reserver" class="btn btn--pill btn--lg magnetic" data-cursor="Go"><span>Prendre rendez-vous</span></a>
-            <a href="#soins" class="btn btn--ghost" data-cursor="Voir"><span>Découvrir les soins</span></a>
+            <a href="#reserver" class="btn btn--pill btn--lg magnetic" data-cursor="Go"><span>Réserver mon fauteuil</span></a>
+            <a href="#soins" class="btn btn--ghost" data-cursor="Voir"><span>Voir les soins</span></a>
           </div>
         </div>
         <div class="hero__visual" id="heroVisual">
           <div class="hero__ring" data-depth="0.6"></div>
-          <svg class="mono mono--hero" id="heroMono" viewBox="0 0 120 120" data-depth="1.2"><use href="#mono-paths"/></svg>
+          <svg class="mono mono--hero" id="heroMono" viewBox="0 0 120 120" data-depth="1.2"></svg>
           <div class="hero__orbit" data-depth="0.3">
             <svg viewBox="0 0 300 300">
               <defs><path id="circlePath" d="M150 150 m-120 0 a120 120 0 1 1 240 0 a120 120 0 1 1 -240 0"/></defs>
-              <text><textPath href="#circlePath">YOU &amp; ME · BEAUTY CENTER · SOIN · ÉCLAT · RITUEL · </textPath></text>
+              <text><textPath href="#circlePath">YOU &amp; ME · BARBER SHOP · CASABLANCA · COUPE · BARBE · RASAGE · </textPath></text>
             </svg>
           </div>
-          <span class="hero__tag hero__tag--1" data-depth="1.6">Éclat</span>
-          <span class="hero__tag hero__tag--2" data-depth="2">Douceur</span>
-          <span class="hero__tag hero__tag--3" data-depth="1.3">Rituel</span>
+          <div class="pole" data-depth="1.8" aria-hidden="true"><i class="pole__stripes" id="pole"></i></div>
+          <span class="hero__tag hero__tag--1" data-depth="1.6">Fade</span>
+          <span class="hero__tag hero__tag--2" data-depth="2">Barbe</span>
+          <span class="hero__tag hero__tag--3" data-depth="1.3">Rasage</span>
         </div>
       </div>
-      <a href="#manifeste" class="scroll-hint" data-cursor="Scroll">
-        <span>Défiler</span>
-        <i></i>
-      </a>
+      <a href="#manifeste" class="scroll-hint" data-cursor="Scroll"><span>Défiler</span><i></i></a>
     </section>
 
     <!-- MARQUEE -->
     <section class="band marquee" aria-label="Nos expertises">
       <div class="marquee__track" id="marquee">
         <div class="marquee__group">
-          <span>Soins visage</span><b>✦</b><span>Massages</span><b>✦</b><span>Onglerie</span><b>✦</b><span>Épilation</span><b>✦</b><span>Regard</span><b>✦</b><span>Maquillage</span><b>✦</b>
+          <span>Coupe signature</span><b>✦</b><span>Dégradé</span><b>✦</b><span>Taille de barbe</span><b>✦</b><span>Rasage à l'ancienne</span><b>✦</b><span>Serviette chaude</span><b>✦</b><span>Soin du visage</span><b>✦</b>
         </div>
         <div class="marquee__group" aria-hidden="true">
-          <span>Soins visage</span><b>✦</b><span>Massages</span><b>✦</b><span>Onglerie</span><b>✦</b><span>Épilation</span><b>✦</b><span>Regard</span><b>✦</b><span>Maquillage</span><b>✦</b>
+          <span>Coupe signature</span><b>✦</b><span>Dégradé</span><b>✦</b><span>Taille de barbe</span><b>✦</b><span>Rasage à l'ancienne</span><b>✦</b><span>Serviette chaude</span><b>✦</b><span>Soin du visage</span><b>✦</b>
         </div>
       </div>
     </section>
@@ -116,92 +115,119 @@
     <!-- MANIFESTE -->
     <section class="manifesto container" id="manifeste">
       <p class="eyebrow">Manifeste</p>
-      <p class="manifesto__text" id="manifesto">Chez You &amp; Me, chaque soin commence par une conversation. Nous écoutons votre peau, votre rythme, vos envies — puis nous composons un rituel qui vous ressemble. Pas de promesses bruyantes, seulement des gestes justes et des résultats que l'on voit.</p>
+      <p class="manifesto__text" id="manifesto">Chez You &amp; Me, on ne vient pas seulement se faire couper les cheveux. On s'installe, on respire, on dit ce que l'on veut — puis on laisse faire des mains qui connaissent leur métier. Lames affûtées, gestes lents, finitions nettes : ici, le luxe, c'est la précision.</p>
     </section>
+
+    <!-- LIGNE DE COUPE (ciseaux au scroll) -->
+    <div class="cut container" id="cut" aria-hidden="true">
+      <span class="cut__label">Coupez ici</span>
+      <div class="cut__track">
+        <i class="cut__dash"></i>
+        <i class="cut__done" id="cutDone"></i>
+        <svg class="cut__scissors" id="cutScissors" viewBox="0 0 120 60">
+          <g class="blade blade--top" id="bladeTop">
+            <path d="M60 30 Q90 22 116 28 Q90 31 60 34"/>
+            <path d="M60 31 L32 19"/>
+            <circle cx="22" cy="15" r="10"/>
+          </g>
+          <g class="blade blade--bottom" id="bladeBottom">
+            <path d="M60 30 Q90 38 116 32 Q90 29 60 26"/>
+            <path d="M60 29 L32 41"/>
+            <circle cx="22" cy="45" r="10"/>
+          </g>
+          <circle cx="60" cy="30" r="2.2" class="pivot"/>
+        </svg>
+      </div>
+    </div>
 
     <!-- SOINS -->
     <section class="services container" id="soins">
       <div class="section-head">
         <p class="eyebrow reveal-up">Nos soins</p>
-        <h2 class="section-title split"><span class="line">Six expertises,</span><span class="line">un même soin du détail.</span></h2>
+        <h2 class="section-title split"><span class="line">Six savoir-faire,</span><span class="line">une même exigence.</span></h2>
       </div>
 
-      <ul class="services__list" id="servicesList">
+      <ul class="services__list">
         <li class="service" data-visual="v1" data-cursor="Voir">
           <span class="service__num">01</span>
-          <h3 class="service__name">Soins du visage</h3>
-          <p class="service__desc">Hydratation, éclat, anti-âge — diagnostic de peau inclus.</p>
-          <span class="service__meta">60 — 90 min</span>
+          <h3 class="service__name slice" data-text="Coupe signature">Coupe signature<i class="slice__blade"></i></h3>
+          <p class="service__desc">Consultation, shampooing, coupe ciseaux &amp; tondeuse, coiffage.</p>
+          <span class="service__meta">45 min</span>
           <span class="service__arrow">→</span>
         </li>
         <li class="service" data-visual="v2" data-cursor="Voir">
           <span class="service__num">02</span>
-          <h3 class="service__name">Massages bien-être</h3>
-          <p class="service__desc">Californien, pierres chaudes, drainant. Le corps relâche, l'esprit suit.</p>
-          <span class="service__meta">45 — 75 min</span>
+          <h3 class="service__name slice" data-text="Dégradé">Dégradé<i class="slice__blade"></i></h3>
+          <p class="service__desc">Skin, low, mid ou high fade. Contours dessinés au rasoir.</p>
+          <span class="service__meta">45 min</span>
           <span class="service__arrow">→</span>
         </li>
         <li class="service" data-visual="v3" data-cursor="Voir">
           <span class="service__num">03</span>
-          <h3 class="service__name">Onglerie</h3>
-          <p class="service__desc">Manucure, semi-permanent, gel. Des mains soignées, longtemps.</p>
-          <span class="service__meta">30 — 90 min</span>
+          <h3 class="service__name slice" data-text="Barbe sculptée">Barbe sculptée<i class="slice__blade"></i></h3>
+          <p class="service__desc">Dessin des lignes, taille, huile et baume nourrissants.</p>
+          <span class="service__meta">30 min</span>
           <span class="service__arrow">→</span>
         </li>
         <li class="service" data-visual="v4" data-cursor="Voir">
           <span class="service__num">04</span>
-          <h3 class="service__name">Épilation</h3>
-          <p class="service__desc">Cire douce et méthodes respectueuses des peaux sensibles.</p>
-          <span class="service__meta">15 — 60 min</span>
+          <h3 class="service__name slice" data-text="Rasage à l'ancienne">Rasage à l'ancienne<i class="slice__blade"></i></h3>
+          <p class="service__desc">Serviette chaude, mousse au blaireau, rasoir droit, après-rasage.</p>
+          <span class="service__meta">40 min</span>
           <span class="service__arrow">→</span>
         </li>
         <li class="service" data-visual="v5" data-cursor="Voir">
           <span class="service__num">05</span>
-          <h3 class="service__name">Regard</h3>
-          <p class="service__desc">Rehaussement de cils, teinture, restructuration des sourcils.</p>
-          <span class="service__meta">30 — 60 min</span>
+          <h3 class="service__name slice" data-text="Soin du visage">Soin du visage<i class="slice__blade"></i></h3>
+          <p class="service__desc">Nettoyage, gommage, masque purifiant et massage du visage.</p>
+          <span class="service__meta">45 min</span>
           <span class="service__arrow">→</span>
         </li>
         <li class="service" data-visual="v6" data-cursor="Voir">
           <span class="service__num">06</span>
-          <h3 class="service__name">Maquillage</h3>
-          <p class="service__desc">Jour, soirée, mariée. Un teint lumineux, jamais masqué.</p>
-          <span class="service__meta">45 — 120 min</span>
+          <h3 class="service__name slice" data-text="Coloration">Coloration<i class="slice__blade"></i></h3>
+          <p class="service__desc">Camouflage naturel des cheveux blancs, cheveux et barbe.</p>
+          <span class="service__meta">30 min</span>
           <span class="service__arrow">→</span>
         </li>
       </ul>
 
-      <!-- Vignette flottante qui suit la souris -->
       <div class="float-visual" id="floatVisual" aria-hidden="true">
         <div class="float-visual__inner">
-          <div class="visual v1"></div><div class="visual v2"></div><div class="visual v3"></div>
-          <div class="visual v4"></div><div class="visual v5"></div><div class="visual v6"></div>
+          <div class="visual v1"><svg class="ico"><use href="#i-scissors"/></svg></div>
+          <div class="visual v2"><svg class="ico"><use href="#i-clipper"/></svg></div>
+          <div class="visual v3"><svg class="ico"><use href="#i-comb"/></svg></div>
+          <div class="visual v4"><svg class="ico"><use href="#i-razor"/></svg></div>
+          <div class="visual v5"><svg class="ico"><use href="#i-bottle"/></svg></div>
+          <div class="visual v6"><svg class="ico"><use href="#i-brush"/></svg></div>
         </div>
       </div>
     </section>
 
-    <!-- LA MAISON -->
-    <section class="band band--soft house" id="maison">
+    <!-- LE SALON -->
+    <section class="band house" id="salon">
       <div class="house__grid container">
         <figure class="house__media">
           <div class="clip-reveal">
-            <div class="visual v2 parallax-img" data-speed="0.12"><span class="visual__mono"><svg class="mono" viewBox="0 0 120 120"><use href="#mono-paths"/></svg></span></div>
+            <div class="visual v2 parallax-img" data-speed="0.12">
+              <img class="visual__logo" src="assets/monogram-white.png" alt="">
+            </div>
           </div>
-          <figcaption class="house__caption">Le salon, lumière du matin</figcaption>
+          <figcaption class="house__caption">Le salon — cuir, laiton et lumière douce</figcaption>
           <div class="house__card reveal-up">
-            <p class="house__card-title">Le diagnostic offert</p>
-            <p>Chaque premier rendez-vous commence par 10 minutes d'analyse de peau.</p>
+            <p class="house__card-title">Le thé est offert</p>
+            <p>Chaque rendez-vous commence par un café ou un thé à la menthe.</p>
           </div>
         </figure>
         <div class="house__text">
-          <p class="eyebrow reveal-up">La maison</p>
-          <h2 class="section-title split"><span class="line">Un lieu pensé</span><span class="line">comme une respiration.</span></h2>
-          <p class="reveal-up">You &amp; Me est né d'une idée simple : la beauté se construit à deux. Votre confiance, notre savoir-faire. Dans un espace clair et silencieux, nos esthéticiennes diplômées prennent le temps — celui de comprendre, puis celui de bien faire.</p>
-          <p class="reveal-up">Nous travaillons avec des marques de soin exigeantes, sélectionnées pour leurs formules et leur respect de la peau.</p>
+          <p class="eyebrow reveal-up">Le salon</p>
+          <h2 class="section-title split"><span class="line">Un club,</span><span class="line">pas une chaîne.</span></h2>
+          <p class="reveal-up">Fauteuils en cuir, musique choisie, lames affûtées chaque matin. Nos barbiers prennent le temps de lire votre visage, votre implantation et votre style de vie — puis ils sculptent.</p>
+          <p class="reveal-up">Produits professionnels sélectionnés pour la peau et la barbe : huiles, baumes, après-rasage. Rien qui brille, tout qui tient.</p>
           <div class="stats">
-            <div class="stat reveal-up"><span class="stat__num" data-count="8">0</span><span class="stat__label">années d'expertise</span></div>
-            <div class="stat reveal-up"><span class="stat__num" data-count="4200" data-suffix="+">0</span><span class="stat__label">clientes fidèles</span></div>
-            <div class="stat reveal-up"><span class="stat__num" data-count="98" data-suffix="%">0</span><span class="stat__label">recommandent</span></div>
+            <div class="stat reveal-up"><span class="stat__num" data-count="6">0</span><span class="stat__label">soins signature</span></div>
+            <div class="stat reveal-up"><span class="stat__num" data-count="45" data-suffix=" min">0</span><span class="stat__label">par coupe, sans hâte</span></div>
+            <div class="stat reveal-up"><span class="stat__num" data-count="100" data-suffix="%">0</span><span class="stat__label">sur rendez-vous</span></div>
           </div>
         </div>
       </div>
@@ -212,84 +238,137 @@
       <div class="ritual__sticky">
         <div class="ritual__head container">
           <p class="eyebrow">Le rituel</p>
-          <h2 class="section-title">Quatre temps,<br>un seul fil.</h2>
+          <h2 class="section-title">Quatre temps,<br>un seul fauteuil.</h2>
           <div class="ritual__bar"><i id="ritualBar"></i></div>
         </div>
         <div class="ritual__track" id="ritualTrack">
           <article class="step tilt">
             <span class="step__num">I</span>
-            <div class="visual v1 step__visual"></div>
-            <h3>Écouter</h3>
-            <p>Un échange pour comprendre votre peau, vos habitudes et ce que vous attendez.</p>
+            <div class="visual v1 step__visual"><svg class="ico"><use href="#i-comb"/></svg></div>
+            <h3>Consulter</h3>
+            <p>Forme du visage, implantation, envies : on regarde, on écoute, on conseille.</p>
           </article>
           <article class="step tilt">
             <span class="step__num">II</span>
-            <div class="visual v4 step__visual"></div>
-            <h3>Préparer</h3>
-            <p>Démaquillage, gommage doux et vapeur : la peau s'ouvre au soin.</p>
+            <div class="visual v5 step__visual"><svg class="ico"><use href="#i-brush"/></svg></div>
+            <h3>Serviette chaude</h3>
+            <p>La vapeur ouvre les pores, adoucit le poil et détend les traits.</p>
           </article>
           <article class="step tilt">
             <span class="step__num">III</span>
-            <div class="visual v5 step__visual"></div>
-            <h3>Soigner</h3>
-            <p>Actifs ciblés, modelage du visage et masque adaptés à votre diagnostic.</p>
+            <div class="visual v4 step__visual"><svg class="ico"><use href="#i-scissors"/></svg></div>
+            <h3>Tailler</h3>
+            <p>Ciseaux, tondeuse, rasoir droit : chaque outil à sa place, chaque ligne à la sienne.</p>
           </article>
           <article class="step tilt">
             <span class="step__num">IV</span>
-            <div class="visual v3 step__visual"></div>
-            <h3>Prolonger</h3>
-            <p>Une routine sur-mesure à poursuivre chez vous, jusqu'au prochain rendez-vous.</p>
+            <div class="visual v2 step__visual"><svg class="ico"><use href="#i-bottle"/></svg></div>
+            <h3>Finir</h3>
+            <p>Contours nets, huile, baume et une touche de parfum. Vous repartez prêt.</p>
           </article>
           <article class="step step--cta">
-            <svg class="mono" viewBox="0 0 120 120"><use href="#mono-paths"/></svg>
-            <h3>À vous de jouer.</h3>
-            <a href="#reserver" class="btn btn--pill magnetic" data-cursor="Go"><span>Réserver mon rituel</span></a>
+            <img src="assets/monogram.png" alt="" class="step__logo">
+            <h3>Votre fauteuil<br>vous attend.</h3>
+            <a href="#reserver" class="btn btn--pill magnetic" data-cursor="Go"><span>Réserver</span></a>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- MONOGRAMME AU SCROLL -->
+    <!-- SIGNATURE : monogramme dessiné au scroll -->
     <section class="signature" id="signature">
       <div class="signature__sticky">
-        <svg class="mono mono--scroll" id="scrollMono" viewBox="0 0 120 120"><use href="#mono-paths"/></svg>
+        <svg class="mono mono--scroll" id="scrollMono" viewBox="0 0 120 120"></svg>
         <div class="signature__words">
           <span class="signature__word" id="sigYou">You</span>
           <span class="signature__amp" id="sigAmp">&amp;</span>
           <span class="signature__word" id="sigMe">Me</span>
         </div>
-        <p class="signature__caption" id="sigCaption">Deux lettres, un cercle. Vous au centre, nous autour.</p>
+        <p class="signature__caption" id="sigCaption">Deux lettres, un cercle. Vous au fauteuil, nous à l'ouvrage.</p>
       </div>
     </section>
 
-    <!-- AVIS -->
+    <!-- CARTE -->
+    <section class="menu container" id="carte">
+      <div class="section-head">
+        <p class="eyebrow reveal-up">La carte</p>
+        <h2 class="section-title split"><span class="line">Nos prestations</span><span class="line">signature.</span></h2>
+      </div>
+      <!-- Tarifs indicatifs : à ajuster -->
+      <div class="menu__grid">
+        <article class="card tilt reveal-up">
+          <span class="badge">Cheveux</span>
+          <h3>Coupe signature</h3>
+          <p>Consultation, shampooing, coupe ciseaux &amp; tondeuse, coiffage au produit.</p>
+          <div class="card__foot"><span class="card__time">45 min</span><span class="card__price">150 DH</span></div>
+          <span class="card__line"></span>
+        </article>
+        <article class="card card--featured tilt reveal-up">
+          <span class="badge badge--fill">Le plus demandé</span>
+          <h3>Rituel Prestige</h3>
+          <p>Coupe, barbe sculptée, rasage serviette chaude et soin du visage express.</p>
+          <div class="card__foot"><span class="card__time">90 min</span><span class="card__price">400 DH</span></div>
+          <span class="card__line"></span>
+        </article>
+        <article class="card tilt reveal-up">
+          <span class="badge">Barbe</span>
+          <h3>Barbe sculptée</h3>
+          <p>Dessin des contours au rasoir, taille, huile et baume.</p>
+          <div class="card__foot"><span class="card__time">30 min</span><span class="card__price">100 DH</span></div>
+          <span class="card__line"></span>
+        </article>
+        <article class="card tilt reveal-up">
+          <span class="badge">Rasage</span>
+          <h3>Rasage à l'ancienne</h3>
+          <p>Serviette chaude, blaireau, rasoir droit et après-rasage apaisant.</p>
+          <div class="card__foot"><span class="card__time">40 min</span><span class="card__price">120 DH</span></div>
+          <span class="card__line"></span>
+        </article>
+        <article class="card tilt reveal-up">
+          <span class="badge">Duo</span>
+          <h3>Coupe &amp; barbe</h3>
+          <p>L'essentiel en un rendez-vous : coupe signature et barbe sculptée.</p>
+          <div class="card__foot"><span class="card__time">60 min</span><span class="card__price">220 DH</span></div>
+          <span class="card__line"></span>
+        </article>
+        <article class="card tilt reveal-up">
+          <span class="badge">Jour J</span>
+          <h3>Rituel du marié</h3>
+          <p>Coupe, barbe, soin du visage et coiffage final, le jour de votre mariage.</p>
+          <div class="card__foot"><span class="card__time">120 min</span><span class="card__price">800 DH</span></div>
+          <span class="card__line"></span>
+        </article>
+      </div>
+    </section>
+
+    <!-- AVIS (exemples à remplacer par de vrais avis clients) -->
     <section class="band reviews" id="avis">
       <div class="container">
         <div class="section-head section-head--center">
-          <p class="eyebrow reveal-up">Elles en parlent</p>
-          <h2 class="section-title split"><span class="line">Ce que l'on retient</span><span class="line">de nous.</span></h2>
+          <p class="eyebrow reveal-up">Ils en parlent</p>
+          <h2 class="section-title split"><span class="line">Ce qu'on retient</span><span class="line">du fauteuil.</span></h2>
         </div>
         <div class="slider" id="slider" data-cursor="Glisser">
           <div class="slider__track" id="sliderTrack">
             <blockquote class="review">
               <div class="stars" aria-label="5 étoiles">★★★★★</div>
-              <p>« Le soin éclat a littéralement réveillé ma peau. L'accueil est d'une douceur rare, je ne vais plus ailleurs. »</p>
-              <cite>Sarah M. — Soin éclat</cite>
+              <p>« Le meilleur dégradé que j'ai eu à Casablanca. Précis, propre, et on prend vraiment le temps. »</p>
+              <cite>Client — Dégradé</cite>
             </blockquote>
             <blockquote class="review">
               <div class="stars" aria-label="5 étoiles">★★★★★</div>
-              <p>« Un massage aux pierres chaudes comme je n'en avais jamais eu. Le temps s'arrête vraiment. »</p>
-              <cite>Inès K. — Massage pierres chaudes</cite>
+              <p>« Le rasage à la serviette chaude, c'est une expérience. Je ressors comme neuf. »</p>
+              <cite>Client — Rasage à l'ancienne</cite>
             </blockquote>
             <blockquote class="review">
               <div class="stars" aria-label="5 étoiles">★★★★★</div>
-              <p>« Mon semi-permanent tient trois semaines sans bouger. Précision et propreté irréprochables. »</p>
-              <cite>Lina B. — Onglerie</cite>
+              <p>« Ma barbe n'a jamais été aussi bien dessinée. Le thé à la menthe en bonus, parfait. »</p>
+              <cite>Client — Barbe sculptée</cite>
             </blockquote>
             <blockquote class="review">
               <div class="stars" aria-label="5 étoiles">★★★★★</div>
-              <p>« Maquillage de mariée parfait du matin au soir. Naturel, lumineux, exactement moi. »</p>
-              <cite>Yasmine R. — Maquillage mariée</cite>
+              <p>« Rituel du marié impeccable, toute l'équipe était aux petits soins le jour J. »</p>
+              <cite>Client — Rituel du marié</cite>
             </blockquote>
           </div>
         </div>
@@ -301,94 +380,71 @@
       </div>
     </section>
 
-    <!-- CARTE / TARIFS -->
-    <section class="menu container" id="carte">
-      <div class="section-head">
-        <p class="eyebrow reveal-up">La carte</p>
-        <h2 class="section-title split"><span class="line">Nos rituels</span><span class="line">signature.</span></h2>
-      </div>
-      <div class="menu__grid">
-        <article class="card tilt reveal-up">
-          <span class="badge">Visage</span>
-          <h3>Rituel Éclat</h3>
-          <p>Nettoyage profond, exfoliation enzymatique, masque lumière et modelage.</p>
-          <div class="card__foot"><span class="card__time">60 min</span><span class="card__price">65 €</span></div>
-          <span class="card__line"></span>
-        </article>
-        <article class="card card--featured tilt reveal-up">
-          <span class="badge badge--fill">Le plus demandé</span>
-          <h3>You &amp; Me Signature</h3>
-          <p>Soin visage complet + massage dos et nuque. Notre rituel le plus complet.</p>
-          <div class="card__foot"><span class="card__time">90 min</span><span class="card__price">110 €</span></div>
-          <span class="card__line"></span>
-        </article>
-        <article class="card tilt reveal-up">
-          <span class="badge">Corps</span>
-          <h3>Pierres Chaudes</h3>
-          <p>Massage enveloppant aux pierres de basalte pour dénouer les tensions.</p>
-          <div class="card__foot"><span class="card__time">75 min</span><span class="card__price">85 €</span></div>
-          <span class="card__line"></span>
-        </article>
-        <article class="card tilt reveal-up">
-          <span class="badge">Mains</span>
-          <h3>Manucure Semi-permanent</h3>
-          <p>Préparation de l'ongle, soin des cuticules et pose couleur longue tenue.</p>
-          <div class="card__foot"><span class="card__time">60 min</span><span class="card__price">40 €</span></div>
-          <span class="card__line"></span>
-        </article>
-        <article class="card tilt reveal-up">
-          <span class="badge">Regard</span>
-          <h3>Rehaussement de cils</h3>
-          <p>Courbure naturelle et teinture pour un regard ouvert pendant 6 semaines.</p>
-          <div class="card__foot"><span class="card__time">50 min</span><span class="card__price">55 €</span></div>
-          <span class="card__line"></span>
-        </article>
-        <article class="card tilt reveal-up">
-          <span class="badge">Teint</span>
-          <h3>Mise en beauté</h3>
-          <p>Maquillage jour ou soirée, adapté à votre carnation et à l'occasion.</p>
-          <div class="card__foot"><span class="card__time">45 min</span><span class="card__price">45 €</span></div>
-          <span class="card__line"></span>
-        </article>
+    <!-- ACCÈS / GOOGLE MAPS -->
+    <section class="access container" id="acces">
+      <div class="access__grid">
+        <div class="access__info">
+          <p class="eyebrow reveal-up">Nous trouver</p>
+          <h2 class="section-title split"><span class="line">Au cœur</span><span class="line">de <em>Casablanca.</em></span></h2>
+          <p class="status reveal-up" id="status"><i></i><span id="statusText">Horaires</span></p>
+          <ul class="access__list reveal-up">
+            <li><span>Adresse</span>You and Me Beauty Center<br>Casablanca, Maroc</li>
+            <li><span>Horaires</span>Lun — Sam · 10h — 21h<br>Dimanche · fermé</li>
+            <li><span>Téléphone</span><a href="tel:+212600000000" class="link-line">+212 6 00 00 00 00</a></li>
+          </ul>
+          <div class="access__ctas reveal-up">
+            <a class="btn btn--pill magnetic" data-cursor="Go" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&amp;destination=You+and+Me+Beauty+Center+Casablanca"><span>Itinéraire</span></a>
+            <a class="btn btn--ghost" data-cursor="Maps" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=You+and+Me+Beauty+Center+Casablanca"><span>Ouvrir dans Google Maps</span></a>
+          </div>
+        </div>
+        <div class="map" id="map">
+          <div class="map__frame">
+            <iframe title="You and Me Beauty Center — Casablanca sur Google Maps"
+              src="https://maps.google.com/maps?q=You%20and%20Me%20Beauty%20Center%20Casablanca&amp;z=15&amp;output=embed"
+              loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+          </div>
+          <i class="map__corner map__corner--tl"></i><i class="map__corner map__corner--tr"></i>
+          <i class="map__corner map__corner--bl"></i><i class="map__corner map__corner--br"></i>
+          <span class="map__hint">Survolez pour la couleur</span>
+        </div>
       </div>
     </section>
 
     <!-- RÉSERVATION -->
-    <section class="band band--soft booking" id="reserver">
+    <section class="band booking" id="reserver">
       <div class="booking__grid container">
         <div class="booking__intro">
           <p class="eyebrow reveal-up">Rendez-vous</p>
-          <h2 class="section-title split"><span class="line">Prenons un moment,</span><span class="line">vous &amp; nous.</span></h2>
-          <ul class="booking__info reveal-up">
-            <li><span>Adresse</span>12 rue des Lilas, 75011 Paris</li>
-            <li><span>Horaires</span>Mar — Sam · 10h — 19h30</li>
-            <li><span>Téléphone</span><a href="tel:+33100000000" class="link-line">01 00 00 00 00</a></li>
-          </ul>
+          <h2 class="section-title split"><span class="line">Réservez</span><span class="line">votre fauteuil.</span></h2>
+          <p class="reveal-up booking__lead">Choisissez votre soin et votre créneau, nous confirmons dans l'heure. Retards de plus de 15 minutes : le rendez-vous peut être décalé.</p>
         </div>
         <form class="form reveal-up" id="bookingForm" novalidate>
           <div class="field">
-            <input type="text" id="fName" name="name" placeholder=" " required>
-            <label for="fName">Nom &amp; prénom</label>
-            <i></i>
+            <input type="text" id="fName" name="fullname" placeholder=" " autocomplete="name" required>
+            <label for="fName">Nom &amp; prénom</label><i></i>
           </div>
           <div class="field">
-            <input type="tel" id="fPhone" name="phone" placeholder=" " required>
-            <label for="fPhone">Téléphone</label>
-            <i></i>
+            <input type="tel" id="fPhone" name="phone" placeholder=" " autocomplete="tel" required>
+            <label for="fPhone">Téléphone</label><i></i>
           </div>
-          <div class="field">
-            <input type="email" id="fEmail" name="email" placeholder=" ">
-            <label for="fEmail">E-mail (facultatif)</label>
-            <i></i>
+          <div class="form__row">
+            <div class="field field--static">
+              <input type="date" id="fDate" name="date" required>
+              <label for="fDate">Date</label><i></i>
+            </div>
+            <div class="field field--static">
+              <select id="fTime" name="time" required></select>
+              <label for="fTime">Heure</label><i></i>
+            </div>
           </div>
           <fieldset class="chips">
-            <legend>Soin souhaité</legend>
-            <label class="chip"><input type="radio" name="soin" value="visage" checked><span>Visage</span></label>
-            <label class="chip"><input type="radio" name="soin" value="massage"><span>Massage</span></label>
-            <label class="chip"><input type="radio" name="soin" value="ongles"><span>Onglerie</span></label>
-            <label class="chip"><input type="radio" name="soin" value="epilation"><span>Épilation</span></label>
-            <label class="chip"><input type="radio" name="soin" value="regard"><span>Regard</span></label>
-            <label class="chip"><input type="radio" name="soin" value="maquillage"><span>Maquillage</span></label>
+            <legend>Prestation</legend>
+            <label class="chip"><input type="radio" name="soin" value="Coupe signature" checked><span>Coupe</span></label>
+            <label class="chip"><input type="radio" name="soin" value="Dégradé"><span>Dégradé</span></label>
+            <label class="chip"><input type="radio" name="soin" value="Barbe sculptée"><span>Barbe</span></label>
+            <label class="chip"><input type="radio" name="soin" value="Rasage à l'ancienne"><span>Rasage</span></label>
+            <label class="chip"><input type="radio" name="soin" value="Coupe & barbe"><span>Coupe &amp; barbe</span></label>
+            <label class="chip"><input type="radio" name="soin" value="Rituel Prestige"><span>Prestige</span></label>
           </fieldset>
           <button type="submit" class="btn btn--pill btn--lg btn--submit magnetic" data-cursor="Envoyer"><span>Envoyer ma demande</span></button>
           <p class="form__msg" id="formMsg" role="status" aria-live="polite"></p>
@@ -400,16 +456,13 @@
   <!-- FOOTER -->
   <footer class="footer">
     <div class="footer__top container">
-      <div>
-        <svg class="mono mono--footer" viewBox="0 0 120 120"><use href="#mono-paths"/></svg>
-        <p class="footer__tag">Beauty Center</p>
-      </div>
+      <img src="assets/logo-white.png" alt="You & Me — Beauty Center" class="footer__logo">
       <div class="footer__cols">
         <div>
           <p class="footer__label">Explorer</p>
           <a href="#soins" class="link-line">Soins</a>
-          <a href="#maison" class="link-line">La maison</a>
           <a href="#carte" class="link-line">Carte</a>
+          <a href="#acces" class="link-line">Accès</a>
         </div>
         <div>
           <p class="footer__label">Suivre</p>
@@ -417,7 +470,7 @@
           <a href="#" class="link-line">TikTok</a>
           <a href="#" class="link-line">Facebook</a>
         </div>
-        <div class="footer__news">
+        <div>
           <p class="footer__label">Lettre</p>
           <form class="news" id="newsForm">
             <input type="email" placeholder="Votre e-mail" aria-label="Votre e-mail" required>
@@ -426,11 +479,11 @@
         </div>
       </div>
     </div>
-    <div class="footer__giant" id="giant" aria-label="You & Me">
+    <div class="footer__giant" aria-label="You & Me">
       <span>Y</span><span>O</span><span>U</span><span class="amp">&amp;</span><span>M</span><span>E</span>
     </div>
     <div class="footer__bottom container">
-      <span>© <span id="year"></span> You &amp; Me Beauty Center</span>
+      <span>© <span id="year"></span> You &amp; Me — Casablanca</span>
       <a href="#top" class="link-line" data-cursor="Haut">Retour en haut ↑</a>
     </div>
   </footer>
